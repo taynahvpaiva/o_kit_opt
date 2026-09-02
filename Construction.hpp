@@ -17,6 +17,8 @@ typedef struct InsertionInfo{
 
 
 Solucao solutionRandom(Data &data, std::vector<int> &CL);
-std::vector<InsertionInfo> pareskOmega(const Solucao &s, Data &data, const std::vector<int> &CL);
 
+std::vector<InsertionInfo> pairskOmega(const Solucao &s, Data &data, const std::vector<int> &CL);
+
+InsertionInfo selectCandidateAlpha(const std::vector<InsertionInfo> &omega);
 #endif

@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
     }
     cout << endl;
     cout << "Custo do subtour inicial: " << s0.custoTotal << endl;
-    cout << "Resto de nos no CL(pos criação do subtor inicial): " << CL.size() << endl;
+    cout << "Resto de nos no CL: " << CL.size() << endl;
 
 
 //2. Computar os pares (k, {i, j}) para todo k ∈ CL, {i, j} ∈ s e armazená-los em uma lista Ω
