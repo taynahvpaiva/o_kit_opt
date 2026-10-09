@@ -4,21 +4,23 @@
 #include <vector>
 #include "Data.h"
 
-typedef struct Solucao{
-    std::vector<int> sequencia;
-    double custoTotal;
-} Solucao;
+typedef struct Solution{
+    std::vector<int> sequence;
+    double totalCost;
+} Solution;
 
-typedef struct InsertionInfo{
-    int noInserido;
-    int arestaRemovida;
-    double delta;
-} InsertionInfo;
+typedef struct Insertion{
+    int newNode;
+    int node1Edge;
+    double delta;//increase in cost with the new node
+} Insertion;
 
 
-Solucao solutionRandom(Data &data, std::vector<int> &CL);
+Solution solutionRandom(Data &data, std::vector<int> &CL);
 
-std::vector<InsertionInfo> pairskOmega(const Solucao &s, Data &data, const std::vector<int> &CL);
+std::vector<Insertion> omegaInsertion(const Solution &s, Data &data, const std::vector<int> &CL);
 
-InsertionInfo selectCandidateAlpha(const std::vector<InsertionInfo> &omega);
+Insertion selectCandidateAlpha(const std::vector<Insertion> &omega);
+
+Solution newSolution(Data &data);
 #endif
