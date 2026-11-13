@@ -68,6 +68,9 @@ Insertion selectCandidateAlpha(const std::vector<Insertion> &omega){
 
     //quantos elementos de Omega participarão da seleção
     int omegatoalpha = (int)(alpha * omega.size());
+    if (omegatoalpha < 1) {
+        omegatoalpha = 1;
+    };
 
     // Escolhe aleatoriamente um dos primeiros elementos
     // Gera um índice aleatório entre 0 e omegatoalpha - 1 para escolher um dos primeiros elementos de omega.
