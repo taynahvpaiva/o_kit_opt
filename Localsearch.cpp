@@ -24,7 +24,14 @@ bool bestImprovementSwap(Solution *s, Data &data){
             nextNode_j = s->sequence[j + 1];
             previousNode_j = s->sequence[j - 1];
 
-            delta = -data.getDistance(previousNode_i, currentNode_i) - data.getDistance(currentNode_i, nextNode_i) + data.getDistance(previousNode_i, currentNode_j)+ data.getDistance(currentNode_j, nextNode_i) - data.getDistance(previousNode_j, currentNode_j) - data.getDistance(currentNode_j, nextNode_j)+ data.getDistance(previousNode_j, currentNode_i) + data.getDistance(currentNode_i, nextNode_j);
+            if (j == i + 1){
+                //(i and j adjacent) one pair always repeats on opposite sides, so we need to discard it
+                delta = -data.getDistance(previousNode_i, currentNode_i) - data.getDistance(currentNode_j, nextNode_j)
+                        + data.getDistance(previousNode_i, currentNode_j) + data.getDistance(currentNode_i, nextNode_j);
+            }else{
+                //kit's formula only works when i and j aren't adjacent
+                delta = -data.getDistance(previousNode_i, currentNode_i) - data.getDistance(currentNode_i, nextNode_i) + data.getDistance(previousNode_i, currentNode_j)+ data.getDistance(currentNode_j, nextNode_i) - data.getDistance(previousNode_j, currentNode_j) - data.getDistance(currentNode_j, nextNode_j)+ data.getDistance(previousNode_j, currentNode_i) + data.getDistance(currentNode_i, nextNode_j);
+            }
 
             if (delta < bestDelta){
                 bestDelta = delta;
