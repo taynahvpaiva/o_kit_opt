@@ -105,19 +105,19 @@ bool bestImprovementOrOpt(Solution *s, Data &data, int vertex123){
 
             for(int j = 0; j < s->sequence.size() - 1; j++){
 
-                    if(j != i - 1 && j != i){
-                        currentNode_j = s->sequence[j];
-                        nextNode_j = s->sequence[j + 1];
+                if(j != i - 1 && j != i){
+                    currentNode_j = s->sequence[j];
+                    nextNode_j = s->sequence[j + 1];
 
-                        delta = -data.getDistance(previousNode_i, currentNode_i) - data.getDistance(currentNode_i, nextNode_i) - data.getDistance(currentNode_j, nextNode_j)
-                                + data.getDistance(previousNode_i, nextNode_i) + data.getDistance(currentNode_j, currentNode_i) + data.getDistance(currentNode_i, nextNode_j);
+                    delta = -data.getDistance(previousNode_i, currentNode_i) - data.getDistance(currentNode_i, nextNode_i) - data.getDistance(currentNode_j, nextNode_j)
+                            + data.getDistance(previousNode_i, nextNode_i) + data.getDistance(currentNode_j, currentNode_i) + data.getDistance(currentNode_i, nextNode_j);
 
-                        if (delta < bestDelta){
-                            bestDelta = delta;
-                            best_i = i;
-                            best_j = j;
-                        }
-                    } 
+                    if (delta < bestDelta){
+                        bestDelta = delta;
+                        best_i = i;
+                        best_j = j;
+                    }
+                }
             }
         }
 
@@ -140,14 +140,109 @@ bool bestImprovementOrOpt(Solution *s, Data &data, int vertex123){
         return false;
 
     }else if (vertex123 == 2){
-        // Or-opt-2 
+
+        double bestDelta = 0;
+        int best_i = -1, best_j = -1;
+        int previousNode_i, firstNode_i, lastNode_i, nextNode_i, currentNode_j, nextNode_j, newNodePosition;
+        double delta;
+
+        for(int i = 1; i < s->sequence.size() - 2; i++){
+
+            previousNode_i = s->sequence[i - 1];
+            firstNode_i = s->sequence[i];
+            lastNode_i = s->sequence[i + 1];
+            nextNode_i = s->sequence[i + 2];
+
+            for(int j = 0; j < s->sequence.size() - 1; j++){
+
+                if(j < i - 1 || j > i + 1){
+                    currentNode_j = s->sequence[j];
+                    nextNode_j = s->sequence[j + 1];
+
+                    delta = -data.getDistance(previousNode_i, firstNode_i) - data.getDistance(lastNode_i, nextNode_i) - data.getDistance(currentNode_j, nextNode_j)
+                            + data.getDistance(previousNode_i, nextNode_i) + data.getDistance(currentNode_j, firstNode_i) + data.getDistance(lastNode_i, nextNode_j);
+
+                    if (delta < bestDelta){
+                        bestDelta = delta;
+                        best_i = i;
+                        best_j = j;
+                    }
+                }
+            }
+        }
+
+        if(best_i != -1){
+            vector<int> block(s->sequence.begin() + best_i, s->sequence.begin() + best_i + 2);
+
+            s->sequence.erase(s->sequence.begin() + best_i, s->sequence.begin() + best_i + 2);
+
+            if (best_j > best_i){
+                newNodePosition = best_j - 1;
+            } else {
+                newNodePosition = best_j + 1;
+            }
+
+            s->sequence.insert(s->sequence.begin() + newNodePosition, block.begin(), block.end());
+
+            s->totalCost = s->totalCost + bestDelta;
+            return true;
+        }
+        return false;
 
     }else{
-        // Or-opt-3 
+
+        double bestDelta = 0;
+        int best_i = -1, best_j = -1;
+        int previousNode_i, firstNode_i, lastNode_i, nextNode_i, currentNode_j, nextNode_j, newNodePosition;
+        double delta;
+
+        for(int i = 1; i < s->sequence.size() - 3; i++){
+
+            previousNode_i = s->sequence[i - 1];
+            firstNode_i = s->sequence[i];
+            lastNode_i = s->sequence[i + 2];
+            nextNode_i = s->sequence[i + 3];
+
+            for(int j = 0; j < s->sequence.size() - 1; j++){
+
+                if(j < i - 1 || j > i + 2){
+                    currentNode_j = s->sequence[j];
+                    nextNode_j = s->sequence[j + 1];
+
+                    delta = -data.getDistance(previousNode_i, firstNode_i) - data.getDistance(lastNode_i, nextNode_i) - data.getDistance(currentNode_j, nextNode_j)
+                            + data.getDistance(previousNode_i, nextNode_i) + data.getDistance(currentNode_j, firstNode_i) + data.getDistance(lastNode_i, nextNode_j);
+
+                    if (delta < bestDelta){
+                        bestDelta = delta;
+                        best_i = i;
+                        best_j = j;
+                    }
+                }
+            }
+        }
+
+        if(best_i != -1){
+            vector<int> block(s->sequence.begin() + best_i, s->sequence.begin() + best_i + 3);
+
+            s->sequence.erase(s->sequence.begin() + best_i, s->sequence.begin() + best_i + 3);
+
+            if (best_j > best_i){
+                newNodePosition = best_j - 2;
+            } else {
+                newNodePosition = best_j + 1;
+            }
+
+            s->sequence.insert(s->sequence.begin() + newNodePosition, block.begin(), block.end());
+
+            s->totalCost = s->totalCost + bestDelta;
+            return true;
+        }
+        return false;
 
     }
 
-    return false; 
+    return false;
+}
 
 void BuscaLocal(Solution *s, Data &data){
 
