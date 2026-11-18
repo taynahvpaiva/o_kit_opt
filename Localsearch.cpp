@@ -91,8 +91,63 @@ bool bestImprovement2Opt(Solution *s, Data &data){
 }
 
 bool bestImprovementOrOpt(Solution *s, Data &data, int vertex123){
-    
-}
+
+    if (vertex123 == 1){
+        double bestDelta = 0;
+        int best_i, best_j,previousNode_i, currentNode_i, nextNode_i, currentNode_j, nextNode_j, node, newNodeposition;
+        double delta;
+
+        for(int i = 1; i < s->sequence.size() - 1; i++){
+
+            previousNode_i = s->sequence[i - 1];
+            currentNode_i = s->sequence[i];
+            nextNode_i = s->sequence[i + 1];
+
+            for(int j = 0; j < s->sequence.size() - 1; j++){
+
+                    if(j != i - 1 && j != i){
+                        currentNode_j = s->sequence[j];
+                        nextNode_j = s->sequence[j + 1];
+
+                        delta = -data.getDistance(previousNode_i, currentNode_i) - data.getDistance(currentNode_i, nextNode_i) - data.getDistance(currentNode_j, nextNode_j)
+                                + data.getDistance(previousNode_i, nextNode_i) + data.getDistance(currentNode_j, currentNode_i) + data.getDistance(currentNode_i, nextNode_j);
+
+                        if (delta < bestDelta){
+                            bestDelta = delta;
+                            best_i = i;
+                            best_j = j;
+                        }
+                    } 
+            }
+        }
+
+        if(bestDelta < 0){
+            node = s->sequence[best_i];
+
+            s->sequence.erase(s->sequence.begin() + best_i);
+
+            if (best_j > best_i){
+                newNodeposition = best_j;
+            } else {
+                newNodeposition = best_j + 1;
+            }
+
+            s->sequence.insert(s->sequence.begin() + newNodeposition, node);
+
+            s->totalCost = s->totalCost + bestDelta;
+            return true;
+        }
+        return false;
+
+    }else if (vertex123 == 2){
+        // Or-opt-2 
+
+    }else{
+        // Or-opt-3 
+
+    }
+
+    return false; 
 
 void BuscaLocal(Solution *s, Data &data){
 
